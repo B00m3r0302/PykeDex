@@ -1,4 +1,5 @@
 import sys
+import get_data
 from enum import Enum
 from typing import Callable
 
@@ -25,6 +26,11 @@ def exit_command(ctx):
     print("Exiting the PykeDex!")
     sys.exit(0)
 
+def map_command(ctx):
+    location_areas = get_data.get_location_areas()
+    for area in location_areas:
+        print(area)
+
 class Commands(Enum):
     HELP = Command(
         command = 'help',
@@ -33,8 +39,13 @@ class Commands(Enum):
     )
     EXIT = Command(
         command = 'exit',
-        description = 'Exit the program',
+        description = 'Exit the PykeDex',
         callback = exit_command,
+    )
+    MAP = Command(
+        command = 'map',
+        description = 'Show location areas',
+        callback = map_command
     )
 
     @classmethod

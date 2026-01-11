@@ -20,6 +20,19 @@ def progress_bar(url):
 
 def get_location_areas():
     location_areas = []
-    for item in make_request("location-area").json()["results"]:
-        location_areas.append(item["name"])
+    url = "location-area"
+
+    while url:
+        response = make_request(url).json()
+        for item in response["results"]:
+            location_areas.append(item["name"])
+
+        # Get the next page URL, or None if we're done
+        next_url = response.get("next")
+        if next_url:
+            # Extract just the endpoint part after the base URL
+            url = next_url.replace("https://pokeapi.co/api/v2/", "")
+        else:
+            url = None
+
     return location_areas
